@@ -12,12 +12,12 @@ import org.junit.Test;
 
 public class NNTest {
 	
-	private NNetwork network;
+	private NNetwork networkLinear;
 	
 	@Before
 	public void setup() {
 		try {
-			network = new NNetwork(3, 2, 2);
+			networkLinear = new NNetwork(new Linear(), 3, 2, 2);
 		} catch (NNException e) {
 			e.printStackTrace();
 			fail(e.toString());
@@ -26,16 +26,16 @@ public class NNTest {
 	
 	@Test
 	public void instantiationTest() {
-		assertEquals(network.inputLayer.size(), 3);
-		assertEquals(network.midLayers.size(), 1);
-		assertEquals(network.midLayers.get(0).size(), 2);
-		assertEquals(network.outputLayer.size(), 2);
-		assertEquals(network.layersNumber(), 3);
+		assertEquals(networkLinear.inputLayer.size(), 3);
+		assertEquals(networkLinear.midLayers.size(), 1);
+		assertEquals(networkLinear.midLayers.get(0).size(), 2);
+		assertEquals(networkLinear.outputLayer.size(), 2);
+		assertEquals(networkLinear.layersNumber(), 3);
 	}
 	
 	@Test
 	public void layerIteratorTest() {
-		LayerIterator iter = new LayerIterator(network);
+		LayerIterator iter = new LayerIterator(networkLinear);
 		while (iter.hasNext()) {
 			List<? extends Neuron> layer = iter.next();
 			assertNotNull(layer);
@@ -45,9 +45,9 @@ public class NNTest {
 	
 	@Test
 	public void wiringTest() {
-		Neuron n1 = network.inputLayer.get(2);
-		Neuron n2 = network.midLayers.get(0).get(1);
-		Neuron n3 = network.outputLayer.get(1);
+		Neuron n1 = networkLinear.inputLayer.get(2);
+		Neuron n2 = networkLinear.midLayers.get(0).get(1);
+		Neuron n3 = networkLinear.outputLayer.get(1);
 		assertTrue(n1.outputs.contains(n2));
 		assertTrue(n2.outputs.contains(n3));
 		assertFalse(n1.outputs.contains(n3));
@@ -56,9 +56,9 @@ public class NNTest {
 	@Test
 	public void processZeroesTest() {
 		try {
-			List<Float> outputs = network.process(Arrays.asList(0f, 0f, 0f));
-			for (float result : outputs) {
-				assertEquals(result, 0f);
+			List<Double> outputs = networkLinear.process(Arrays.asList(0d, 0d, 0d));
+			for (double result : outputs) {
+				assertEquals(0d, result);
 			}
 		} catch (NNException e) {
 			e.printStackTrace();
@@ -69,9 +69,9 @@ public class NNTest {
 	@Test
 	public void processOnesTest() {
 		try {
-			List<Float> outputs = network.process(Arrays.asList(1f, 1f, 1f));
-			for (float result : outputs) {
-				assertEquals(result, 6f);
+			List<Double> outputs = networkLinear.process(Arrays.asList(1d, 1d, 1d));
+			for (double result : outputs) {
+				assertEquals(6d, result);
 			}
 		} catch (NNException e) {
 			e.printStackTrace();
@@ -82,7 +82,7 @@ public class NNTest {
 	@Test
 	public void tooFewArgumentsTest() {
 		try {
-			network.process(Arrays.asList(1f, 2f));
+			networkLinear.process(Arrays.asList(1d, 2d));
 			fail("Accepted 2 arguments when 3 were required.");
 		} catch (NNException e) {
 			assertNotNull(e);
@@ -92,7 +92,7 @@ public class NNTest {
 	@Test
 	public void tooManyArgumentsTest() {
 		try {
-			network.process(Arrays.asList(1f, 2f, 3f, 4f));
+			networkLinear.process(Arrays.asList(1d, 2d, 3d, 4d));
 			fail("Accepted 4 arguments when 3 were required.");
 		} catch (NNException e) {
 			assertNotNull(e);

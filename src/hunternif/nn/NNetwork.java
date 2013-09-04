@@ -17,7 +17,7 @@ public class NNetwork {
 	 * </p>
 	 * @throws NNException if the number of layers given is less than 2.
 	 */
-	public NNetwork(int ... layers) throws NNException {
+	public NNetwork(IActivationFunction function, int ... layers) throws NNException {
 		if (layers.length < 2) {
 			throw new NNException("A neural network must have at least 2 layers.");
 		}
@@ -28,7 +28,7 @@ public class NNetwork {
 			int layerSize = layers[i];
 			List<Neuron> layer = new ArrayList<>();
 			for (int j = 0; j < layerSize; j++) {
-				layer.add(new Neuron());
+				layer.add(new Neuron(function));
 			}
 			midLayers.add(layer);
 		}
@@ -90,15 +90,15 @@ public class NNetwork {
 		return 2 + midLayers.size();
 	}
 	
-	public List<Float> process(List<Float> inputs) throws NNException {
+	public List<Double> process(List<Double> inputs) throws NNException {
 		if (inputs.size() != inputLayer.size()) {
 			throw new NNException("Number of inputs doesn't match number of input neurons");
 		}
 		for (int i = 0; i < inputs.size(); i++) {
-			float inputSignal = inputs.get(i);
+			double inputSignal = inputs.get(i);
 			inputLayer.get(i).input(inputSignal);
 		}
-		List<Float> results = new ArrayList<>();
+		List<Double> results = new ArrayList<>();
 		for (OutputNeuron outputNeuron : outputLayer) {
 			results.add(outputNeuron.signal);
 		}

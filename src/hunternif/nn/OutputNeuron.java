@@ -1,10 +1,14 @@
 package hunternif.nn;
 
 public class OutputNeuron extends Neuron {
-	public float signal = 0;
+	public double signal = 0;
+	
+	public OutputNeuron() {
+		super(new Linear());
+	}
 	
 	@Override
-	protected void propagate(float signal) {
+	protected void propagate(double signal) {
 		this.signal = signal;
 	}
 }

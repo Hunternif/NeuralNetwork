@@ -7,42 +7,41 @@ import java.util.Set;
 
 /** This class is not thread-safe! */
 public class Neuron {
-	private float accumulatedInput = 0;
+	private IActivationFunction function;
+	
+	private double accumulatedInput = 0;
 	private int inputsProcessed = 0;
 	
-	private Map<Neuron, Float> inputWeights = new HashMap<>();
-	
+	private Map<Neuron, Double> inputWeights = new HashMap<>();
 	protected Set<Neuron> outputs = new HashSet<>();
 	
-	public Neuron() {}
+	public Neuron(IActivationFunction function) {
+		this.function = function;
+	}
 	
 	public void connectInput(Neuron input) {
 		setInputWeight(input, 1);
 	}
-	public void setInputWeight(Neuron input, float weight) {
+	public void setInputWeight(Neuron input, double weight) {
 		weight = Math.max(0, Math.min(weight, 1));
-		inputWeights.put(input, Float.valueOf(weight));
+		inputWeights.put(input, Double.valueOf(weight));
 		input.connectOutput(this);
 	}
-	public float getInputWeight(Neuron input) {
-		Float weight = inputWeights.get(input);
-		if (weight == null) weight = Float.valueOf(0);
+	public double getInputWeight(Neuron input) {
+		Double weight = inputWeights.get(input);
+		if (weight == null) weight = Double.valueOf(0);
 		return weight;
 	}
 	private void connectOutput(Neuron output) {
 		outputs.add(output);
 	}
 	
-	protected float transferFunction(float input) {
-		return input;
-	}
-	
-	public void input(Neuron source, float signal) {
-		float weight = getInputWeight(source);
+	public void input(Neuron source, double signal) {
+		double weight = getInputWeight(source);
 		accumulatedInput += signal * weight;
 		inputsProcessed++;
 		if (inputsProcessed >= inputWeights.size()) {
-			float result = transferFunction(accumulatedInput);
+			double result = function.produce(accumulatedInput);
 			propagate(result);
 		}
 	}
@@ -52,7 +51,7 @@ public class Neuron {
 		inputsProcessed = 0;
 	}
 	
-	protected void propagate(float signal) {
+	protected void propagate(double signal) {
 		for (Neuron output : outputs) {
 			output.input(this, signal);
 		}
