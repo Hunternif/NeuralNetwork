@@ -55,4 +55,8 @@ public class Neuron {
 		}
 		reset();
 	}
+	
+	public IActivationFunction getActivationFunction() {
+		return function;
+	}
 }

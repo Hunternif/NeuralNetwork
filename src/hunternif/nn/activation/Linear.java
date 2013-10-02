@@ -9,4 +9,9 @@ public class Linear implements IActivationFunction {
 		return input;
 	}
 
+	@Override
+	public double derivative(double input) {
+		return 1;
+	}
+
 }

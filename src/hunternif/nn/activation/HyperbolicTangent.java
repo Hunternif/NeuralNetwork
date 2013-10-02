@@ -9,4 +9,9 @@ public class HyperbolicTangent implements IActivationFunction {
 		return Math.tanh(input);
 	}
 
+	@Override
+	public double derivative(double input) {
+		return 1/Math.cosh(input);
+	}
+
 }
