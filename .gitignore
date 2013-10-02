@@ -4,7 +4,4 @@ bin
 .project
 *.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
+*.json
