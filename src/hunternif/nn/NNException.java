@@ -6,4 +6,8 @@ public class NNException extends Exception {
 	public NNException(String message) {
 		super(message);
 	}
+	
+	public NNException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

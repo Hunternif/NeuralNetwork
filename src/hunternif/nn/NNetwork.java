@@ -59,7 +59,7 @@ public class NNetwork {
 			}
 		}
 	}
-	protected static class LayerIterator implements Iterator<List<? extends Neuron>> {
+	public static class LayerIterator implements Iterator<List<? extends Neuron>> {
 		private int position = -1;
 		private NNetwork network;
 		public LayerIterator(NNetwork network) {
@@ -92,7 +92,7 @@ public class NNetwork {
 	
 	public List<Double> process(List<Double> inputs) throws NNException {
 		if (inputs.size() != inputLayer.size()) {
-			throw new NNException("Number of inputs doesn't match number of input neurons");
+			throw new NNException("Number of inputs doesn't match the number of input neurons");
 		}
 		for (int i = 0; i < inputs.size(); i++) {
 			double inputSignal = inputs.get(i);

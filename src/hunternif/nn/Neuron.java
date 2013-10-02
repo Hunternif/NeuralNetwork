@@ -28,8 +28,7 @@ public class Neuron {
 	}
 	public double getInputWeight(Neuron input) {
 		Double weight = inputWeights.get(input);
-		if (weight == null) weight = Double.valueOf(0);
-		return weight;
+		return weight == null ? 0 : weight.doubleValue();
 	}
 	private void connectOutput(Neuron output) {
 		outputs.add(output);
