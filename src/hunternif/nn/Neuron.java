@@ -15,6 +15,8 @@ public class Neuron {
 	private Map<Neuron, Double> inputWeights = new HashMap<>();
 	protected Set<Neuron> outputs = new HashSet<>();
 	
+	protected double lastResult = 0;
+	
 	public Neuron(IActivationFunction function) {
 		this.function = function;
 	}
@@ -50,6 +52,7 @@ public class Neuron {
 	}
 	
 	protected void propagate(double signal) {
+		lastResult = signal;
 		for (Neuron output : outputs) {
 			output.input(this, signal);
 		}
