@@ -11,7 +11,7 @@ public class Teacher {
 		this.network = network;
 	}
 	
-	public void addTeachindPair(TeachingPair<?,?> pair) throws NNException {
+	public void addTeachingPair(TeachingPair<?,?> pair) throws NNException {
 		if (pair.inputAdapter.numberOfSignals() != network.numberOfInputs()) {
 			throw new NNException("Incorrect number of inputs in TeachingPair. " +
 					"Network expected " + network.numberOfInputs() + ", but was" +
