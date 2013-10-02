@@ -1,5 +1,7 @@
 package hunternif.nn;
 
+import hunternif.nn.activation.Linear;
+
 public class OutputNeuron extends Neuron {
 	public double signal = 0;
 	

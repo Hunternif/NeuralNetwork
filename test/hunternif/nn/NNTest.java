@@ -3,12 +3,15 @@ package hunternif.nn;
 import static junit.framework.Assert.*;
 
 import hunternif.nn.NNetwork.LayerIterator;
+import hunternif.nn.activation.Linear;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.gson.Gson;
 
 public class NNTest {
 	
@@ -97,6 +100,12 @@ public class NNTest {
 		} catch (NNException e) {
 			assertNotNull(e);
 		}
+	}
+	
+	@Test
+	public void gsonTest() {
+		Gson gson = new Gson();
+		System.out.println(gson.toJson(networkLinear));
 	}
 
 }

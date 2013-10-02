@@ -1,5 +1,7 @@
 package hunternif.nn;
 
+import hunternif.nn.activation.Linear;
+
 public class InputNeuron extends Neuron {
 	public InputNeuron() {
 		super(new Linear());

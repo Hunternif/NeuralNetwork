@@ -1,4 +1,6 @@
-package hunternif.nn;
+package hunternif.nn.activation;
+
+import hunternif.nn.IActivationFunction;
 
 public class PositiveHyperbolicTangent implements IActivationFunction {
 
