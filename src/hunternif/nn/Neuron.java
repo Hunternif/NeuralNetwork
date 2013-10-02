@@ -9,7 +9,7 @@ import java.util.Set;
 public class Neuron {
 	private IActivationFunction function;
 	
-	private double accumulatedInput = 0;
+	protected double accumulatedInput = 0;
 	private int inputsProcessed = 0;
 	
 	private Map<Neuron, Double> inputWeights = new HashMap<>();

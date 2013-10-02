@@ -34,7 +34,7 @@ public class NNTest {
 		assertEquals(networkLinear.midLayers.size(), 1);
 		assertEquals(networkLinear.midLayers.get(0).size(), 2);
 		assertEquals(networkLinear.outputLayer.size(), 2);
-		assertEquals(networkLinear.layersNumber(), 3);
+		assertEquals(networkLinear.numberOfLayers(), 3);
 	}
 	
 	@Test

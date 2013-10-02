@@ -67,14 +67,14 @@ public class NNetwork {
 		}
 		@Override
 		public boolean hasNext() {
-			return position < network.layersNumber() - 1;
+			return position < network.numberOfLayers() - 1;
 		}
 		@Override
 		public List<? extends Neuron> next() {
 			position++;
 			if (position == 0) {
 				return network.inputLayer;
-			} else if (position == network.layersNumber() - 1) {
+			} else if (position == network.numberOfLayers() - 1) {
 				return network.outputLayer;
 			} else {
 				return network.midLayers.get(position - 1);
@@ -86,12 +86,18 @@ public class NNetwork {
 		}
 	}
 	
-	public int layersNumber() {
+	public int numberOfLayers() {
 		return 2 + midLayers.size();
+	}
+	public int numberOfInputs() {
+		return inputLayer.size();
+	}
+	public int numberOfOutputs() {
+		return outputLayer.size();
 	}
 	
 	public List<Double> process(List<Double> inputs) throws NNException {
-		if (inputs.size() != inputLayer.size()) {
+		if (inputs.size() != numberOfInputs()) {
 			throw new NNException("Number of inputs doesn't match the number of input neurons");
 		}
 		for (int i = 0; i < inputs.size(); i++) {
