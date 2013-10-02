@@ -23,7 +23,6 @@ public class Neuron {
 		setInputWeight(input, 1);
 	}
 	public void setInputWeight(Neuron input, double weight) {
-		weight = Math.max(0, Math.min(weight, 1));
 		inputWeights.put(input, Double.valueOf(weight));
 		input.connectOutput(this);
 	}

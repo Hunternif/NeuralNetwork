@@ -12,8 +12,8 @@ public class NNetwork {
 	/**
 	 * @param layers specifies number of neurons per layer from input to output.
 	 * <p>Example:<br>
-	 * {@code new NNetwork(3, 2, 1)} produces a network with 3 input,
-	 * 1 middle layer with 2 neurons and 1 output.
+	 * {@code new NNetwork(3, 2, 1)} produces a network with 3 input neurons,
+	 * 1 middle layer with 2 neurons and 1 output neuron.
 	 * </p>
 	 * @throws NNException if the number of layers given is less than 2.
 	 */
