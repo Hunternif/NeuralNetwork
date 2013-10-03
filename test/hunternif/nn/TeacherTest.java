@@ -3,6 +3,7 @@ package hunternif.nn;
 import static junit.framework.Assert.fail;
 import hunternif.nn.activation.Linear;
 import hunternif.nn.data.IntAdapter;
+import hunternif.nn.util.IntPattern;
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -12,11 +13,11 @@ public class TeacherTest {
 	private NNetwork network;
 	private IntAdapter adapter = new IntAdapter(3);
 	Teacher teacher;
-	private Pattern<Integer, Integer> pattern = new Pattern<Integer, Integer>(adapter, 1, adapter, 1);
-	private Pattern<Integer, Integer> pattern0 = new Pattern<Integer, Integer>(adapter, 0, adapter, 0);
-	private Pattern<Integer, Integer> pattern2 = new Pattern<Integer, Integer>(adapter, 2, adapter, 2);
-	private Pattern<Integer, Integer> pattern3 = new Pattern<Integer, Integer>(adapter, 3, adapter, 3);
-	private Pattern<Integer, Integer> pattern4 = new Pattern<Integer, Integer>(adapter, 4, adapter, 4);
+	private IntPattern pattern = new IntPattern(3, 1, 1);
+	private IntPattern pattern0 = new IntPattern(3, 0, 0);
+	private IntPattern pattern2 = new IntPattern(3, 2, 2);
+	private IntPattern pattern3 = new IntPattern(3, 3, 3);
+	private IntPattern pattern4 = new IntPattern(3, 4, 4);
 	
 	@Before
 	public void setup() {
