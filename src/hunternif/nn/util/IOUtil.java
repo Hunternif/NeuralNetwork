@@ -18,6 +18,7 @@ public class IOUtil {
 	public static void serializeWeights(NNetwork network, File file) {
 		try {
 			JsonWriter writer = new JsonWriter(new FileWriter(file));
+			writer.setIndent("  ");
 			writer.beginArray();
 			LayerIterator iter = new LayerIterator(network);
 			List<? extends Neuron> curLayer = null;
