@@ -1,9 +1,10 @@
 package hunternif.nn;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class NNetwork {
+public class NNetwork implements Iterable<List<? extends Neuron>>{
 	protected final List<InputNeuron> inputLayer = new ArrayList<>();
 	protected final List<List<Neuron>> midLayers = new ArrayList<>();
 	protected final List<OutputNeuron> outputLayer = new ArrayList<>();
@@ -80,6 +81,7 @@ public class NNetwork {
 	}
 	
 	public List<Double> process(List<Double> inputs) throws NNException {
+		resetNeurons();
 		if (inputs.size() != numberOfInputs()) {
 			throw new NNException("Number of inputs doesn't match the number of input neurons");
 		}
@@ -92,5 +94,17 @@ public class NNetwork {
 			results.add(outputNeuron.signal);
 		}
 		return results;
+	}
+	protected void resetNeurons() {
+		for (List<? extends Neuron> list : this) {
+			for (Neuron neuron : list) {
+				neuron.reset();
+			}
+		}
+	}
+
+	@Override
+	public Iterator<List<? extends Neuron>> iterator() {
+		return new LayerIterator(this);
 	}
 }

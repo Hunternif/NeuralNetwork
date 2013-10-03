@@ -56,7 +56,6 @@ public class Neuron {
 		for (Neuron output : outputs) {
 			output.input(this, signal);
 		}
-		reset();
 	}
 	
 	public IActivationFunction getActivationFunction() {
