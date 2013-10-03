@@ -33,7 +33,7 @@ public class NNetwork implements Iterable<List<? extends Neuron>>{
 			midLayers.add(layer);
 		}
 		for (int i = 0; i < layers[layers.length-1]; i++) {
-			outputLayer.add(new OutputNeuron());
+			outputLayer.add(new OutputNeuron(function));
 		}
 		wireAllLayers();
 	}
@@ -53,9 +53,10 @@ public class NNetwork implements Iterable<List<? extends Neuron>>{
 		}
 	}
 	protected void wireLayers(List<? extends Neuron> inputs, List<? extends Neuron> outputs) {
+		double weight = 1d / outputs.size();
 		for (Neuron input : inputs) {
 			for (Neuron output : outputs) {
-				output.connectInput(input);
+				output.setInputWeight(input, weight);
 			}
 		}
 	}
