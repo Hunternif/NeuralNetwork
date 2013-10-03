@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Teacher {
-	public final List<TeachingPair<?,?>> teachingPairs = new ArrayList<>();
-	public final NNetwork network;
+	protected final List<TeachingPattern<?,?>> teachingPatterns = new ArrayList<>();
+	protected final NNetwork network;
 	
 	public Teacher(NNetwork network) {
 		this.network = network;
 	}
 	
-	public void addTeachingPair(TeachingPair<?,?> pair) throws NNException {
+	public void addTeachingPattern(TeachingPattern<?,?> pair) throws NNException {
 		if (pair.inputAdapter.numberOfSignals() != network.numberOfInputs()) {
 			throw new NNException("Incorrect number of inputs in TeachingPair. " +
 					"Network expected " + network.numberOfInputs() + ", but was" +
@@ -22,7 +22,7 @@ public class Teacher {
 					"Network expected " + network.numberOfOutputs() + ", but was" +
 					pair.outputAdapter.numberOfSignals());
 		}
-		teachingPairs.add(pair);
+		teachingPatterns.add(pair);
 	}
 	
 	/** When objective function gets below this value, teaching finishes. */
@@ -36,7 +36,7 @@ public class Teacher {
 		int discrepancies = 0;
 		double objectiveValue = objectiveFunction();
 		while (true) {
-			//TODO the actual teaching
+			//TODO: Perform gradient descent optimization
 			// Defensive checks:
 			double newObjectiveValue = objectiveFunction();
 			if (newObjectiveValue > objectiveValue) {
@@ -60,10 +60,10 @@ public class Teacher {
 	
 	protected double objectiveFunction() throws NNException {
 		double result = 0;
-		for (TeachingPair<?,?> pair : teachingPairs) {
-			List<Double> processed = network.process(pair.getInputSignal());
+		for (TeachingPattern<?,?> pattern : teachingPatterns) {
+			List<Double> processed = network.process(pattern.getInputSignal());
 			for (int i = 0; i < processed.size(); i++) {
-				result += Math.pow(processed.get(i).doubleValue() - pair.getOutputSignal().get(i).doubleValue(), 2);
+				result += Math.pow(processed.get(i).doubleValue() - pattern.getOutputSignal().get(i).doubleValue(), 2);
 			}
 		}
 		return result;
