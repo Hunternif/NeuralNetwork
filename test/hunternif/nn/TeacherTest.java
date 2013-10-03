@@ -1,6 +1,7 @@
 package hunternif.nn;
 
 import static junit.framework.Assert.fail;
+import hunternif.nn.activation.HyperbolicTangent;
 import hunternif.nn.activation.Linear;
 import hunternif.nn.data.IntAdapter;
 import hunternif.nn.util.IntPattern;
@@ -17,12 +18,11 @@ public class TeacherTest {
 	private IntPattern pattern0 = new IntPattern(3, 0, 0);
 	private IntPattern pattern2 = new IntPattern(3, 2, 2);
 	private IntPattern pattern3 = new IntPattern(3, 3, 3);
-	private IntPattern pattern4 = new IntPattern(3, 4, 4);
 	
 	@Before
 	public void setup() {
 		try {
-			network = new NNetwork(new Linear(), 3, 3, 3);
+			network = new NNetwork(new HyperbolicTangent(), 3, 3, 3);
 			teacher = new Teacher(network);
 		} catch (NNException e) {
 			e.printStackTrace();
@@ -33,6 +33,8 @@ public class TeacherTest {
 	@Test
 	public void testObjectiveFunction() {
 		try {
+			NNetwork networkLinear = new NNetwork(new Linear(), 3, 3, 3);
+			Teacher teacher = new Teacher(networkLinear);
 			teacher.addPattern(pattern);
 			Assert.assertEquals((double)(5*5 + 6*6 + 5*5), teacher.objectiveFunction());
 		} catch (NNException e) {
@@ -70,19 +72,13 @@ public class TeacherTest {
 	}
 	
 	@Test
-	public void teachExtrapolation() {
+	public void teachInterpolation() {
 		try {
 			teacher.addPattern(pattern);
 			teacher.addPattern(pattern3);
 			teacher.teach();
-			Integer processed = adapter.dataFromSignal(network.process(pattern.getInputSignal()));
-			Assert.assertEquals(pattern.output, processed);
-			processed = adapter.dataFromSignal(network.process(pattern2.getInputSignal()));
+			Integer processed = adapter.dataFromSignal(network.process(pattern2.getInputSignal()));
 			Assert.assertEquals(pattern2.output, processed);
-			processed = adapter.dataFromSignal(network.process(pattern3.getInputSignal()));
-			Assert.assertEquals(pattern3.output, processed);
-			processed = adapter.dataFromSignal(network.process(pattern4.getInputSignal()));
-			Assert.assertEquals(pattern4.output, processed);
 		} catch (NNException e) {
 			e.printStackTrace();
 			fail(e.toString());
