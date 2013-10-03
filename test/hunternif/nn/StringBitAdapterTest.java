@@ -1,12 +1,9 @@
 package hunternif.nn;
 
-import java.util.List;
-
+import hunternif.nn.data.StringBitAdapter;
 import junit.framework.Assert;
 
 import org.junit.Test;
-
-import hunternif.nn.data.StringBitAdapter;
 
 public class StringBitAdapterTest {
 	public StringBitAdapter adapter = new StringBitAdapter(1000);
