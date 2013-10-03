@@ -11,7 +11,7 @@ public class HyperbolicTangent implements IActivationFunction {
 
 	@Override
 	public double derivative(double input) {
-		return 1/Math.cosh(input);
+		return 1/Math.cosh(input)/Math.cosh(input);
 	}
 
 }

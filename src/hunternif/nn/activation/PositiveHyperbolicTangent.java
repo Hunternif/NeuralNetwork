@@ -6,12 +6,12 @@ public class PositiveHyperbolicTangent implements IActivationFunction {
 
 	@Override
 	public double produce(double input) {
-		return 1 / (1 + Math.exp(-input));
+		return 1 / (1 + Math.exp(-2*input));
 	}
 
 	@Override
 	public double derivative(double input) {
-		return Math.exp(input) / Math.pow(Math.exp(input) + 1, 2);
+		return 0.5/Math.cosh(input)/Math.cosh(input);
 	}
 
 }
