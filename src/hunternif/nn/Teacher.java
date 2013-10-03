@@ -49,6 +49,10 @@ public class Teacher {
 			if (newObjectiveValue > objectiveValue) {
 				discrepancies++;
 			}
+			if (Double.isInfinite(newObjectiveValue)) {
+				System.out.println("Failed to teach due to objective value overflow.");
+				break;
+			}
 			if (Math.abs(newObjectiveValue - objectiveValue) < minObjectiveDelta) {
 				System.out.println("Finished teaching due to objective value unchanching.");
 				break;
