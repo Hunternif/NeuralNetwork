@@ -12,11 +12,11 @@ public class TeacherTest {
 	private NNetwork network;
 	private IntAdapter adapter = new IntAdapter(3);
 	Teacher teacher;
-	private TeachingPattern<Integer, Integer> pattern = new TeachingPattern<Integer, Integer>(adapter, 1, adapter, 1);
-	private TeachingPattern<Integer, Integer> pattern0 = new TeachingPattern<Integer, Integer>(adapter, 0, adapter, 0);
-	private TeachingPattern<Integer, Integer> pattern2 = new TeachingPattern<Integer, Integer>(adapter, 2, adapter, 2);
-	private TeachingPattern<Integer, Integer> pattern3 = new TeachingPattern<Integer, Integer>(adapter, 3, adapter, 3);
-	private TeachingPattern<Integer, Integer> pattern4 = new TeachingPattern<Integer, Integer>(adapter, 4, adapter, 4);
+	private Pattern<Integer, Integer> pattern = new Pattern<Integer, Integer>(adapter, 1, adapter, 1);
+	private Pattern<Integer, Integer> pattern0 = new Pattern<Integer, Integer>(adapter, 0, adapter, 0);
+	private Pattern<Integer, Integer> pattern2 = new Pattern<Integer, Integer>(adapter, 2, adapter, 2);
+	private Pattern<Integer, Integer> pattern3 = new Pattern<Integer, Integer>(adapter, 3, adapter, 3);
+	private Pattern<Integer, Integer> pattern4 = new Pattern<Integer, Integer>(adapter, 4, adapter, 4);
 	
 	@Before
 	public void setup() {
@@ -32,7 +32,7 @@ public class TeacherTest {
 	@Test
 	public void testObjectiveFunction() {
 		try {
-			teacher.addTeachingPattern(pattern);
+			teacher.addPattern(pattern);
 			Assert.assertEquals((double)(5*5 + 6*6 + 5*5), teacher.objectiveFunction());
 		} catch (NNException e) {
 			fail(e.toString());
@@ -42,7 +42,7 @@ public class TeacherTest {
 	@Test
 	public void teachOnePattern() {
 		try {
-			teacher.addTeachingPattern(pattern);
+			teacher.addPattern(pattern);
 			teacher.teach();
 			Integer processed = adapter.dataFromSignal(network.process(pattern.getInputSignal()));
 			Assert.assertEquals(pattern.output, processed);
@@ -55,8 +55,8 @@ public class TeacherTest {
 	@Test
 	public void teachTwoPatterns() {
 		try {
-			teacher.addTeachingPattern(pattern);
-			teacher.addTeachingPattern(pattern0);
+			teacher.addPattern(pattern);
+			teacher.addPattern(pattern0);
 			teacher.teach();
 			Integer processed = adapter.dataFromSignal(network.process(pattern.getInputSignal()));
 			Assert.assertEquals(pattern.output, processed);
@@ -71,8 +71,8 @@ public class TeacherTest {
 	@Test
 	public void teachExtrapolation() {
 		try {
-			teacher.addTeachingPattern(pattern);
-			teacher.addTeachingPattern(pattern3);
+			teacher.addPattern(pattern);
+			teacher.addPattern(pattern3);
 			teacher.teach();
 			Integer processed = adapter.dataFromSignal(network.process(pattern.getInputSignal()));
 			Assert.assertEquals(pattern.output, processed);

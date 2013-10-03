@@ -6,25 +6,25 @@ import java.util.List;
 import java.util.Map;
 
 public class Teacher {
-	protected final List<TeachingPattern<?,?>> teachingPatterns = new ArrayList<>();
+	protected final List<Pattern<?,?>> patterns = new ArrayList<>();
 	protected final NNetwork network;
 	
 	public Teacher(NNetwork network) {
 		this.network = network;
 	}
 	
-	public void addTeachingPattern(TeachingPattern<?,?> pair) throws NNException {
+	public void addPattern(Pattern<?,?> pair) throws NNException {
 		if (pair.inputAdapter.numberOfSignals() != network.numberOfInputs()) {
-			throw new NNException("Incorrect number of inputs in TeachingPair. " +
+			throw new NNException("Incorrect number of inputs in pattern. " +
 					"Network expected " + network.numberOfInputs() + ", but was" +
 					pair.inputAdapter.numberOfSignals());
 		}
 		if (pair.outputAdapter.numberOfSignals() != network.numberOfOutputs()) {
-			throw new NNException("Incorrect number of outputs in TeachingPair. " +
+			throw new NNException("Incorrect number of outputs in pattern. " +
 					"Network expected " + network.numberOfOutputs() + ", but was" +
 					pair.outputAdapter.numberOfSignals());
 		}
-		teachingPatterns.add(pair);
+		patterns.add(pair);
 	}
 	
 	/** When objective function gets below this value, teaching finishes. */
@@ -40,7 +40,7 @@ public class Teacher {
 		while (true) {
 			System.out.println("Objective value = " + objectiveValue);
 			// Perform gradient descent optimization:
-			for (TeachingPattern<?,?> pattern : teachingPatterns) {
+			for (Pattern<?,?> pattern : patterns) {
 				performGradientDescent(pattern);
 			}
 			
@@ -67,7 +67,7 @@ public class Teacher {
 	
 	protected double objectiveFunction() throws NNException {
 		double result = 0;
-		for (TeachingPattern<?,?> pattern : teachingPatterns) {
+		for (Pattern<?,?> pattern : patterns) {
 			List<Double> processed = network.process(pattern.getInputSignal());
 			for (int i = 0; i < processed.size(); i++) {
 				result += Math.pow(processed.get(i).doubleValue() - pattern.getOutputSignal().get(i).doubleValue(), 2);
@@ -83,7 +83,7 @@ public class Teacher {
 	
 	public double gradientStep = 0.01;
 	
-	protected void performGradientDescent(TeachingPattern<?,?> pattern) throws NNException {
+	protected void performGradientDescent(Pattern<?,?> pattern) throws NNException {
 		try {
 			network.process(pattern.getInputSignal());
 			
