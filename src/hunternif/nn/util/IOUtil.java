@@ -1,8 +1,8 @@
 package hunternif.nn.util;
 
+import hunternif.nn.LayerIterator;
 import hunternif.nn.NNException;
 import hunternif.nn.NNetwork;
-import hunternif.nn.NNetwork.LayerIterator;
 import hunternif.nn.Neuron;
 
 import java.io.File;

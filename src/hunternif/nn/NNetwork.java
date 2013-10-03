@@ -1,7 +1,6 @@
 package hunternif.nn;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class NNetwork {
@@ -59,32 +58,6 @@ public class NNetwork {
 			}
 		}
 	}
-	public static class LayerIterator implements Iterator<List<? extends Neuron>> {
-		private int position = -1;
-		private NNetwork network;
-		public LayerIterator(NNetwork network) {
-			this.network = network;
-		}
-		@Override
-		public boolean hasNext() {
-			return position < network.numberOfLayers() - 1;
-		}
-		@Override
-		public List<? extends Neuron> next() {
-			position++;
-			if (position == 0) {
-				return network.inputLayer;
-			} else if (position == network.numberOfLayers() - 1) {
-				return network.outputLayer;
-			} else {
-				return network.midLayers.get(position - 1);
-			}
-		}
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
-	}
 	
 	public int numberOfLayers() {
 		return 2 + midLayers.size();
@@ -94,6 +67,16 @@ public class NNetwork {
 	}
 	public int numberOfOutputs() {
 		return outputLayer.size();
+	}
+	
+	protected List<? extends Neuron> getLayer(int index) throws IndexOutOfBoundsException {
+		if (index == 0) {
+			return inputLayer;
+		} else if (index == numberOfLayers() - 1) {
+			return outputLayer;
+		} else {
+			return midLayers.get(index - 1);
+		}
 	}
 	
 	public List<Double> process(List<Double> inputs) throws NNException {

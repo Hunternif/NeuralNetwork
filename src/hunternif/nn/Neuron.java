@@ -42,6 +42,7 @@ public class Neuron {
 		inputsProcessed++;
 		if (inputsProcessed >= inputWeights.size()) {
 			double result = function.produce(accumulatedInput);
+			lastResult = result;
 			propagate(result);
 		}
 	}
@@ -52,7 +53,6 @@ public class Neuron {
 	}
 	
 	protected void propagate(double signal) {
-		lastResult = signal;
 		for (Neuron output : outputs) {
 			output.input(this, signal);
 		}

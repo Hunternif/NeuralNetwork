@@ -5,7 +5,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
-import hunternif.nn.NNetwork.LayerIterator;
 import hunternif.nn.activation.Linear;
 
 import java.util.Arrays;
@@ -39,12 +38,36 @@ public class NNTest {
 	
 	@Test
 	public void layerIteratorTest() {
+		int traversed = 0;
+		int backtracked = 0;
 		LayerIterator iter = new LayerIterator(networkLinear);
 		while (iter.hasNext()) {
 			List<? extends Neuron> layer = iter.next();
 			assertNotNull(layer);
-			System.out.println(layer.toString());
+			if (iter.hasPrevious()) {
+				iter.previous();
+				assertEquals(layer, iter.next());
+				backtracked++;
+			}
+			traversed++;
 		}
+		assertEquals(3, traversed);
+		assertEquals(2, backtracked);
+		iter = new LayerIterator(networkLinear);
+		traversed = 0;
+		backtracked = 0;
+		while (iter.hasPrevious()) {
+			List<? extends Neuron> layer = iter.previous();
+			assertNotNull(layer);
+			if (iter.hasNext()) {
+				iter.next();
+				assertEquals(layer, iter.previous());
+				backtracked++;
+			}
+			traversed++;
+		}
+		assertEquals(3, traversed);
+		assertEquals(2, backtracked);
 	}
 	
 	@Test
