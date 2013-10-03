@@ -1,9 +1,9 @@
 package hunternif.nn;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /** This class is not thread-safe! */
 public class Neuron {
@@ -13,7 +13,7 @@ public class Neuron {
 	private int inputsProcessed = 0;
 	
 	private Map<Neuron, Double> inputWeights = new HashMap<>();
-	protected Set<Neuron> outputs = new HashSet<>();
+	protected List<Neuron> outputs = new ArrayList<>();
 	
 	protected double lastResult = 0;
 	
@@ -33,7 +33,9 @@ public class Neuron {
 		return weight == null ? 0 : weight.doubleValue();
 	}
 	private void connectOutput(Neuron output) {
-		outputs.add(output);
+		if (!outputs.contains(output)) {
+			outputs.add(output);
+		}
 	}
 	
 	public void input(Neuron source, double signal) {
