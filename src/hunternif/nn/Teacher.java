@@ -1,7 +1,9 @@
 package hunternif.nn;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Teacher {
 	protected final List<TeachingPattern<?,?>> teachingPatterns = new ArrayList<>();
@@ -26,17 +28,22 @@ public class Teacher {
 	}
 	
 	/** When objective function gets below this value, teaching finishes. */
-	public static double minObjective = 0.1;
+	public double minObjective = 0.1;
 	/** When incremental changes in objective value get lower than this value, teaching finished. */
-	public static double minObjectiveDelta = 0.01;
+	public double minObjectiveDelta = 0.001;
 	/**When objective function increases in value this many times in a row, teaching finishes. */
-	public static double maxDiscrepancies = 3;
+	public double maxDiscrepancies = 3;
 	
 	public void teach() throws NNException {
 		int discrepancies = 0;
 		double objectiveValue = objectiveFunction();
 		while (true) {
-			//TODO: Perform gradient descent optimization
+			System.out.println("Objective value = " + objectiveValue);
+			// Perform gradient descent optimization:
+			for (TeachingPattern<?,?> pattern : teachingPatterns) {
+				performGradientDescent(pattern);
+			}
+			
 			// Defensive checks:
 			double newObjectiveValue = objectiveFunction();
 			if (newObjectiveValue > objectiveValue) {
@@ -67,5 +74,50 @@ public class Teacher {
 			}
 		}
 		return result;
+	}
+	
+	/** Last value of objective function's partial derivative with respect to
+	 * neuron's last output value.
+	 */
+	private Map<Neuron, Double> derivatives = new HashMap<>();
+	
+	public double gradientStep = 0.01;
+	
+	protected void performGradientDescent(TeachingPattern<?,?> pattern) throws NNException {
+		try {
+			network.process(pattern.getInputSignal());
+			
+			// Calculate derivatives for the final layer:
+			for (int i = 0; i < network.numberOfOutputs(); i++) {
+				Neuron neuron = network.outputLayer.get(i);
+				Double correctValue = pattern.getOutputSignal().get(i);
+				derivatives.put(neuron, (neuron.lastResult - correctValue)*2);
+			}
+			
+			// Iterate through layers backwards and compute layer's derivatives
+			// and weights from the next layer's ones.
+			LayerIterator iter = new LayerIterator(network);
+			// Must start from the next to last layer:
+			List<? extends Neuron> curLayer = iter.previous();
+			while (iter.hasPrevious()) {
+				curLayer = iter.previous();
+				// The gist of calculation:
+				for (Neuron curNeuron : curLayer) {
+					double derivative = 0;
+					for (Neuron nextNeuron : curNeuron.outputs) {
+						double weight = nextNeuron.getInputWeight(curNeuron);
+						double lol = derivatives.get(nextNeuron) * nextNeuron.getActivationFunction().derivative(nextNeuron.accumulatedInput);
+						derivative += weight * lol;
+						weight -= gradientStep * lol * curNeuron.lastResult;
+						nextNeuron.setInputWeight(curNeuron, weight);
+					}
+					derivatives.put(curNeuron, Double.valueOf(derivative));
+				}
+			}
+		} catch (NNException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NNException(e);
+		}
 	}
 }

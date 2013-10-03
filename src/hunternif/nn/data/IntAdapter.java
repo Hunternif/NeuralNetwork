@@ -46,15 +46,9 @@ public class IntAdapter implements IDataAdapter<Integer> {
 	public Integer dataFromSignal(List<Double> output) {
 		int digits = 0;
 		boolean isNegative = output.get(0).intValue() == -1;
-		boolean digitsStarted = false;
 		for (int i = 1; i < output.size(); i++) {
 			Double digit = output.get(i);
-			if (digit.intValue() != 0) {
-				digitsStarted = true;
-			}
-			if (digitsStarted) {
-				digits = digits*10 + digit.intValue();
-			}
+			digits = digits*10 + (int)Math.abs(Math.round(digit.doubleValue()));
 		}
 		if (isNegative) {
 			digits *= -1;

@@ -20,7 +20,7 @@ public class IntAdapterTest {
 	public void backPositive() {
 		List<Double> exactDigits = Arrays.asList(1.0, 0.0, 1.0, 0.0);
 		Assert.assertEquals(10, adapter.dataFromSignal(exactDigits).intValue());
-		List<Double> approximateDigits = Arrays.asList(1.3, -0.5, 1.1, 0.99);
+		List<Double> approximateDigits = Arrays.asList(1.3, -0.5, 1.1, 0.49);
 		Assert.assertEquals(10, adapter.dataFromSignal(approximateDigits).intValue());
 	}
 	
