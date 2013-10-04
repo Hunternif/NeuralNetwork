@@ -11,8 +11,10 @@ public class StringBitAdapter implements IDataAdapter<String> {
 	private static final Map<String, List<Double>> cache = new HashMap<>();
 	
 	private final int numberOfSignals;
+	protected final int charSize;
 	
-	public StringBitAdapter(int numberOfSignals) {
+	public StringBitAdapter(int charSize, int numberOfSignals) {
+		this.charSize = charSize;
 		this.numberOfSignals = numberOfSignals;
 	}
 	
@@ -24,7 +26,7 @@ public class StringBitAdapter implements IDataAdapter<String> {
 			for (int i = 0; i < input.length(); i++) {
 				String binary = Integer.toBinaryString(input.charAt(i));
 				// Add leading zeroes:
-				for (int j = 0; j < 16-binary.length(); j++) {
+				for (int j = 0; j < charSize - binary.length(); j++) {
 					signal.add(Double.valueOf(0));
 				}
 				for (int j = 0; j < binary.length(); j++) {
@@ -46,9 +48,9 @@ public class StringBitAdapter implements IDataAdapter<String> {
 		int posInChar = 0;
 		for (Double doubleValue : output) {
 			int bit = Math.min((int)Math.abs(Math.round(doubleValue.doubleValue())), 1);
-			curChar |= bit << (15 - posInChar++);
+			curChar |= bit << (charSize - 1 - posInChar++);
 			//System.out.println(Integer.toBinaryString(curChar));
-			if (posInChar == 16) {
+			if (posInChar == charSize) {
 				posInChar = 0;
 				if (curChar != 0) {
 					sb.append(curChar);

@@ -6,7 +6,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 public class StringBitAdapterTest {
-	public StringBitAdapter adapter = new StringBitAdapter(1000);
+	public StringBitAdapter adapter = new StringBitAdapter(8, 1000);
 	
 	@Test
 	public void test() {
