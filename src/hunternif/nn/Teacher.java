@@ -63,7 +63,7 @@ public class Teacher {
 				break;
 			}
 			if (discrepancies > maxDiscrepancies) {
-				System.out.println("Finished teaching due to objective discrepancy.");
+				System.out.println("Failed to teach due to objective discrepancy.");
 				break;
 			}
 		}
@@ -110,9 +110,11 @@ public class Teacher {
 					double derivative = 0;
 					for (Neuron nextNeuron : curNeuron.outputs) {
 						double weight = nextNeuron.getInputWeight(curNeuron);
-						double lol = derivatives.get(nextNeuron) * nextNeuron.getActivationFunction().derivative(nextNeuron.accumulatedInput);
-						derivative += weight * lol;
-						weight -= gradientStep * lol * curNeuron.lastResult;
+						double nextObjDeriv = derivatives.get(nextNeuron);
+						double nextActivFeriv = nextNeuron.getActivationFunction().derivative(nextNeuron.accumulatedInput);
+						derivative += weight * nextObjDeriv * nextActivFeriv;
+						//System.out.println("Gradient is " + nextObjDeriv * nextActivFeriv * curNeuron.lastResult);
+						weight -= gradientStep * nextObjDeriv * nextActivFeriv * curNeuron.lastResult;
 						nextNeuron.setInputWeight(curNeuron, weight);
 					}
 					derivatives.put(curNeuron, Double.valueOf(derivative));

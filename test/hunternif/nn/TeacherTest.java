@@ -1,7 +1,6 @@
 package hunternif.nn;
 
 import static junit.framework.Assert.fail;
-import hunternif.nn.activation.HyperbolicTangent;
 import hunternif.nn.activation.Linear;
 import hunternif.nn.data.IntAdapter;
 import hunternif.nn.util.IntPattern;
@@ -22,7 +21,7 @@ public class TeacherTest {
 	@Before
 	public void setup() {
 		try {
-			network = new NNetwork(new HyperbolicTangent(), 3, 3, 3);
+			network = new NNetwork(new Linear(), 3, 3, 3);
 			teacher = new Teacher(network);
 		} catch (NNException e) {
 			e.printStackTrace();
@@ -33,8 +32,6 @@ public class TeacherTest {
 	@Test
 	public void testObjectiveFunction() {
 		try {
-			NNetwork networkLinear = new NNetwork(new Linear(), 3, 3, 3);
-			Teacher teacher = new Teacher(networkLinear);
 			teacher.addPattern(pattern);
 			Assert.assertEquals((double)(5*5 + 6*6 + 5*5), teacher.objectiveFunction());
 		} catch (NNException e) {
