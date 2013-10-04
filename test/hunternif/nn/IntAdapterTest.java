@@ -13,7 +13,7 @@ public class IntAdapterTest {
 	
 	@Test
 	public void forthPositive() {
-		assertEquals(new double[]{1,0,1,2,3}, adapter.dataToSignal(123));
+		TestUtil.assertEquals(new double[]{1,0,1,2,3}, adapter.dataToSignal(123));
 	}
 	
 	@Test
@@ -26,27 +26,12 @@ public class IntAdapterTest {
 	
 	@Test
 	public void forthNegative() {
-		assertEquals(new double[]{-1,0,2,0,3}, adapter.dataToSignal(-203));
+		TestUtil.assertEquals(new double[]{-1,0,2,0,3}, adapter.dataToSignal(-203));
 	}
 	
 	@Test
 	public void backNegative() {
 		List<Double> digits = Arrays.asList(-1.0, 1.0, 2.0, 3.0);
 		Assert.assertEquals(-123, adapter.dataFromSignal(digits).intValue());
-	}
-	
-	public static void assertEquals(double[] expected, List<Double> actual) {
-		if (expected.length != actual.size()) {
-			Assert.fail("Array and list have different size. " +
-					"Expected array: " + Arrays.toString(expected) + 
-					" Actual list: " + actual.toString());
-		}
-		for (int i = 0; i < expected.length; i++) {
-			if (expected[i] != actual.get(i)) {
-				Assert.fail("Unequal element at " + i + ". " +
-						"Expected array: " + Arrays.toString(expected) + 
-						" Actual list: " + actual.toString());
-			}
-		}
 	}
 }
