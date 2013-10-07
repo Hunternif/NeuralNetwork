@@ -1,5 +1,6 @@
 package hunternif.nn;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,5 +20,13 @@ public class TestUtil {
 						" Actual list: " + actual.toString());
 			}
 		}
+	}
+	
+	public static List<Double> makeList(double[] array) {
+		List<Double> list = new ArrayList<>();
+		for (double value : array) {
+			list.add(Double.valueOf(value));
+		}
+		return list;
 	}
 }

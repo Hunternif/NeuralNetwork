@@ -36,7 +36,13 @@ public class AlphabetAdapter implements IDataAdapter<Character> {
 	@Override
 	public Character dataFromSignal(List<Double> output) {
 		int highestOutputIndex = -1;
-		double highestOutput = 0;
+		double minimum = output.get(0).doubleValue();
+		for (Double node : output) {
+			if (node.doubleValue() < minimum) {
+				minimum = node.doubleValue();
+			}
+		}
+		double highestOutput = minimum;
 		for (int i = 0; i < output.size(); i++) {
 			if (output.get(i).doubleValue() > highestOutput) {
 				highestOutput = output.get(i).doubleValue();

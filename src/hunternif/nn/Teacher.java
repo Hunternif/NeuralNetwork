@@ -16,12 +16,12 @@ public class Teacher {
 	public void addPattern(Pattern<?,?> pair) throws NNException {
 		if (pair.inputAdapter.numberOfSignals() != network.numberOfInputs()) {
 			throw new NNException("Incorrect number of inputs in pattern. " +
-					"Network expected " + network.numberOfInputs() + ", but was" +
+					"Network expected " + network.numberOfInputs() + ", but was " +
 					pair.inputAdapter.numberOfSignals());
 		}
 		if (pair.outputAdapter.numberOfSignals() != network.numberOfOutputs()) {
 			throw new NNException("Incorrect number of outputs in pattern. " +
-					"Network expected " + network.numberOfOutputs() + ", but was" +
+					"Network expected " + network.numberOfOutputs() + ", but was " +
 					pair.outputAdapter.numberOfSignals());
 		}
 		patterns.add(pair);

@@ -1,5 +1,9 @@
 package hunternif.nn;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import hunternif.nn.data.AlphabetAdapter;
 import hunternif.nn.data.WordAdapter;
 import junit.framework.Assert;
@@ -30,5 +34,13 @@ public class AlphabetTest {
 		AlphabetAdapter alphabet = new AlphabetAdapter('a', 'z');
 		WordAdapter words = new WordAdapter(alphabet, 16);
 		Assert.assertEquals("qwerty", words.dataFromSignal(words.dataToSignal("qwerty")));
+	}
+	
+	@Test
+	public void testNoise() {
+		AlphabetAdapter alphabet = new AlphabetAdapter('a', 'c');
+		WordAdapter words = new WordAdapter(alphabet, 3);
+		double[] signal = {0.8, 0.7, 0.7, -0.1, 0.0, -0.2, 0.5, 0.5, 0.5};
+		Assert.assertEquals("ab", words.dataFromSignal(TestUtil.makeList(signal)));
 	}
 }
