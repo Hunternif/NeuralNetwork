@@ -1,9 +1,5 @@
 package hunternif.nn;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import hunternif.nn.data.AlphabetAdapter;
 import hunternif.nn.data.WordAdapter;
 import junit.framework.Assert;
