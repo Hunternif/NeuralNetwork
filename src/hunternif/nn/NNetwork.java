@@ -5,9 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class NNetwork implements Iterable<List<? extends Neuron>>{
-	protected final List<InputNeuron> inputLayer = new ArrayList<>();
-	protected final List<List<Neuron>> midLayers = new ArrayList<>();
-	protected final List<OutputNeuron> outputLayer = new ArrayList<>();
+	//TODO: use arrays instead of lists.
+	protected final List<InputNeuron> inputLayer;
+	protected final List<List<Neuron>> midLayers;
+	protected final List<OutputNeuron> outputLayer;
 	
 	/**
 	 * @param layers specifies number of neurons per layer from input to output.
@@ -21,12 +22,16 @@ public class NNetwork implements Iterable<List<? extends Neuron>>{
 		if (layers.length < 2) {
 			throw new NNException("A neural network must have at least 2 layers.");
 		}
+		inputLayer = new ArrayList<>(layers[0]);
+		outputLayer = new ArrayList<>(layers[layers.length - 1]);
+		midLayers = new ArrayList<>(layers.length - 2);
+		
 		for (int i = 0; i < layers[0]; i++) {
 			inputLayer.add(new InputNeuron());
 		}
 		for (int i = 1; i < layers.length - 1; i++) {
 			int layerSize = layers[i];
-			List<Neuron> layer = new ArrayList<>();
+			List<Neuron> layer = new ArrayList<>(layerSize);
 			for (int j = 0; j < layerSize; j++) {
 				layer.add(new Neuron(function));
 			}
@@ -40,16 +45,12 @@ public class NNetwork implements Iterable<List<? extends Neuron>>{
 	
 	protected void wireAllLayers() {
 		LayerIterator iter = new LayerIterator(this);
-		List<? extends Neuron> inputLayer = iter.next();
+		List<? extends Neuron> inputLayer;
 		List<? extends Neuron> outputLayer = iter.next();
-		while (true) {
+		while (iter.hasNext()) {
+			inputLayer = outputLayer;
+			outputLayer = iter.next();
 			wireLayers(inputLayer, outputLayer);
-			if (iter.hasNext()) {
-				inputLayer = outputLayer;
-				outputLayer = iter.next();
-			} else {
-				break;
-			}
 		}
 	}
 	protected void wireLayers(List<? extends Neuron> inputs, List<? extends Neuron> outputs) {
